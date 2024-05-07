@@ -1,0 +1,126 @@
+.home-search {
+  /* padding: 100px; */
+  padding: 30px 50px 20px 50px;
+}
+
+.edit-dropdown {
+  padding-right: 930px;
+}
+
+#activity-selector {
+  padding-right: 90px;
+  padding-left: 100px;
+}
+ 
+#rows-style {
+  padding-top: 5px;
+  padding-bottom: 3px;
+}
+
+/* iphone 14 pro max downward  */
+@media (max-width: 480px) and (max-height: 1000px) {
+  .home-search {
+    padding: 10px;
+  }
+
+  .edit-dropdown {
+    padding-right: 100px;
+  }
+
+  .key-list {
+    padding-left: 10px;
+    padding-right: 50px;
+  }
+
+  #activity-selector {
+    padding-right: 0px;
+    padding-left: 0px;
+  }
+}
+
+@media (max-width: 420px) and (max-height: 900px) {
+  .home-search {
+    padding: 10px;
+  }
+
+  .edit-dropdown {
+    padding-right: 55px;
+  }
+
+  .key-list {
+    padding-left: 10px;
+    padding-right: 50px;
+  }
+
+  #activity-selector {
+    padding-right: 0px;
+    padding-left: 0px;
+  }
+}
+
+@media (max-width: 360px) and (max-height: 750px) {
+  .home-search {
+    padding: 6px;
+  }
+
+  .edit-dropdown {
+    padding-right: 40px;
+  }
+
+  .key-list {
+    padding-left: 5px;
+    padding-right: 40px;
+  }
+
+  #activity-selector {
+    padding-right: 0px;
+    padding-left: 0px;
+  }
+}
+
+/* iphone 14pro max portrait*/
+@media (max-width: 1000px) and (max-height: 480px) {
+  .home-search {
+    padding: 15px;
+  }
+
+  .edit-dropdown {
+    padding-right: 600px;
+  }
+
+  .key-list {
+    /* padding-left: 10px; */
+    padding-right: 20px;
+  }
+}
+
+@media (max-width: 900px) and (max-height: 400px) {
+  .home-search {
+    padding: 15px;
+  }
+
+  .edit-dropdown {
+    padding-right: 500px;
+  }
+
+  .key-list {
+    /* padding-left: 10px; */
+    padding-right: 20px;
+  }
+}
+
+/* samsung galazy s8+ */
+@media (max-width: 800px) and (max-height: 400px) {
+  .home-search {
+    padding: 15px;
+  }
+
+  .edit-dropdown {
+    padding-right: 400px;
+  }
+
+  .key-list {
+    /* padding-left: 10px; */
+    padding-right: 20px;
+  }
+}
