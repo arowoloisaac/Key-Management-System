@@ -1,5 +1,58 @@
+import { useEffect, useState } from "react";
+import Axios from "axios";
 
 const NavBar = () => {
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>();
+  const savedData = localStorage.getItem("token");
+  const [getEMail, setEmail] = useState("");
+
+  const [status, setStatus] = useState<number>()
+
+  useEffect(() => {
+    Axios.get("https://localhost:7267/api/profile", {
+      headers: { Authorization: `Bearer ${savedData}` },
+    }).then((res) => {
+      setEmail(res.data.email);
+    });
+  });
+
+  useEffect(() => {
+    if (savedData) {
+      setIsAuthenticated(true);
+    } else {
+      setIsAuthenticated(false);
+    }
+  });
+
+  const handleLogout = () => {
+    if (!isAuthenticated) {
+      Axios.post(
+        "https://localhost:7267/api/logout",
+        {},
+        {
+          headers: { Authorization: `Bearer ${savedData}` },
+        }
+      ).then((res) => {
+        setStatus(res.status)
+
+        if (status === 200) {
+          localStorage.removeItem("token");
+          setIsAuthenticated(false);
+          localStorage.clear();
+          window.location.reload();
+        }
+      });
+    } else {
+      if (status === 401 || status === 403) {
+        localStorage.clear();
+        window.location.reload();
+      }
+      // localStorage.clear();
+      // window.location.reload();
+    }
+    
+  };
+
   return (
     <>
       <div>
@@ -26,28 +79,45 @@ const NavBar = () => {
                     Home
                   </a>
                 </li>
-                <li className="nav-item">
+                {/* <li className="nav-item">
                   <a className="nav-link" href="/Key">
                     RequestKey
                   </a>
-                </li>
+                </li> */}
                 <li className="nav-item">
-                  <a className="nav-link" href="#">
-                    
-                  </a>
+                  <a className="nav-link" href="#"></a>
                 </li>
               </ul>
               <div></div>
-              <a href="/login" style={{ marginRight: "1%" }}>
-                <button type="button" className="btn btn-secondary">
-                  Login
-                </button>
-              </a>
-              <a href="/register">
-                <button type="button" className="btn btn-secondary">
-                  Register
-                </button>
-              </a>
+              {isAuthenticated === true ? (
+                <div>
+                  <a href="/profile">
+                    <span style={{ marginRight: "20px" }}>{getEMail}</span>
+                  </a>
+                  <a href="">
+                    <button
+                      type="button"
+                      className="btn btn-danger"
+                      onClick={handleLogout}
+                    >
+                      Logout
+                    </button>
+                  </a>
+                </div>
+              ) : (
+                <div>
+                  <a href="/login" style={{ marginRight: "1%" }}>
+                    <button type="button" className="btn btn-secondary">
+                      Login
+                    </button>
+                  </a>
+                  <a href="/register">
+                    <button type="button" className="btn btn-secondary">
+                      Register
+                    </button>
+                  </a>
+                </div>
+              )}
             </div>
           </div>
         </nav>

@@ -21,7 +21,7 @@ function App() {
           <Route path="/register" element={<Signup />} />
           <Route path="/login" element={<Login />} />
           <Route path="/profile" element={<ViewProfile />} />
-          <Route path="/profile" element={<UpdateProfile />} />
+          <Route path="/edit-profile" element={<UpdateProfile />} />
           <Route path="/key" element={<RequestKey />} />
           <Route />
           <Route path="/*" element={<PageError />} />
