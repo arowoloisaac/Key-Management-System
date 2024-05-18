@@ -10,6 +10,7 @@ import Home from "./components/Home/Home";
 import PageError from "./components/Error/PageError";
 import NavBar from "./sharedComponent/Navbar";
 import RequestKey from "./components/Key/RequestKey";
+import ThirdParty from "./components/Key/ThirdParty";
 
 function App() {
   return (
@@ -22,8 +23,8 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/profile" element={<ViewProfile />} />
           <Route path="/edit-profile" element={<UpdateProfile />} />
-          <Route path="/key" element={<RequestKey />} />
-          <Route />
+          <Route path="/request" element={<RequestKey />} />
+          <Route path="/thirdparty" element={<ThirdParty />  }/>
           <Route path="/*" element={<PageError />} />
         </Routes>
       </Router>

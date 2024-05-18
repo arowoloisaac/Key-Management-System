@@ -3,6 +3,8 @@ import "bootstrap/js/src/dropdown.js";
 import "../CSS/Home.css";
 import Axios from "axios";
 import { useEffect, useState } from "react";
+import UnfilteredKey from "../Key/UnfilteredKey";
+import Key from "../Key/Key";
 
 export interface IKeys {
   id: string;
@@ -12,55 +14,49 @@ export interface IKeys {
 
 const Home = () => {
   const [getKeys, setKeys] = useState<IKeys[]>([]);
+  const [getSelector, setSelector] = useState<any>();
+  //const [getFilter, setFilter] = useState<any>();
+  const [isClicked, setIsClicked] = useState(false);
 
-  useEffect(() => {
-    Axios.get("https://localhost:7267/api/get-keys").then(response => setKeys(response.data));
-  }, []);
+  const handleSelector = (event: any) => {
+    setSelector(event.target.value);
+  };
+
+  const handleFilter = (event: any) => {
+    event.preventDefault();
+    setIsClicked(true);
+    var parameter = `https://localhost:7267/api/get-keys?key=${getSelector}`;
+
+    Axios.get(parameter).then((response) => {
+      setKeys(response.data);
+    });
+  };
 
   
 
-  console.log(getKeys);
-
   return (
     <>
-      <div></div>
-      {/* {getKeys?.map((key) => {
-        {key.id}
-      })} */}
-
       <div className="home-search">
         <nav className="navbar bg-body-tertiary">
           <div className="container-fluid">
             <span>Filter for key</span>
-            <div className="dropdown edit-dropdown">
-              <button
-                className="btn btn-secondary dropdown-toggle"
-                type="button"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                Filter Key
-              </button>
-              <ul className="dropdown-menu">
-                <li>
-                  <a className="dropdown-item" href="#">
-                    Available
-                  </a>
-                </li>
-                <li>
-                  <a className="dropdown-item" href="#">
-                    Unavailable
-                  </a>
-                </li>
-                <li>
-                  <a className="dropdown-item" href="#">
-                    PendingRequest
-                  </a>
-                </li>
-              </ul>
+            <div className="edit-select">
+              <select className="form-select" id="" onClick={handleSelector}>
+                <option value="options" disabled>
+                  Filter Key
+                </option>
+                <option value="Available">Available</option>
+                <option value="Unavailable">Engaged</option>
+                <option value="PendingAcceptance">Pending</option>
+              </select>
             </div>
+
             <form className="d-flex" role="search">
-              <button className="btn btn-outline-success" type="submit">
+              <button
+                className="btn btn-outline-success"
+                type="submit"
+                onClick={handleFilter}
+              >
                 Search
               </button>
             </form>
@@ -69,7 +65,67 @@ const Home = () => {
       </div>
       <div className="key-list">
         <div className="container">
-          <div className="row" id="rows-style">
+          {!isClicked ? (
+            <Key />
+          ) : isClicked && getKeys.length > 0 ? (
+            getKeys.map((key) => (
+              <div key={key.id} className="row" id="rows-style">
+                <div className="col-4 col-lg-6 col-sm-4">{key.room}</div>
+                <div
+                  key={key.status}
+                  className="col-3 col-lg-2 col-sm-3"
+                  id="activity-selector"
+                >
+                  {key.status === "Available" ? (
+                    <button className="btn btn-primary btn-sm" type="button">
+                      Available
+                    </button>
+                  ) : key.status === "Unavailable" ? (
+                    <button className="btn btn-secondary btn-sm" type="button">
+                      Engaged
+                    </button>
+                  ) : (
+                    <button className="btn btn-secondary btn-sm" type="button">
+                      Pending
+                    </button>
+                  )}
+                </div>
+                <div className="col-3 col-lg-2 col-sm-3">
+                  <select
+                    className="form-select form-select-sm"
+                    aria-label="Default select example"
+                  >
+                    <option selected>Lecture</option>
+                    <option>Seminar</option>
+                    <option>Study</option>
+                    <option>Repair</option>
+                  </select>
+                </div>
+                <div className="col-2 col-lg-2 col-sm-3">
+                  <button className="btn btn-sm btn-primary" type="button">
+                    Request
+                  </button>
+                </div>
+              </div>
+            ))
+          ) : (
+            <div className="text-center" style={{paddingTop:"100px"}}>
+              <h1>OOPs</h1>
+              <p style={{color:"darkblue", fontSize:"18px", textAlign:"center"}}>No classroom with a pending request</p>
+              <p style={{color: "blue", fontSize:"20px"}}>Hurray!!, request a key now</p>
+            </div>
+          )}
+          {/* <Key /> */}
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default Home;
+
+{
+  /* <div className="row" id="rows-style">
             <div className="col-4 col-lg-6 col-sm-4">Room 202</div>
             <div className="col-3 col-lg-2 col-sm-3" id="activity-selector">
               <button className="btn btn-primary btn-sm" type="button">
@@ -145,11 +201,5 @@ const Home = () => {
                 Request
               </button>
             </div>
-          </div>
-        </div>
-      </div>
-    </>
-  );
-};
-
-export default Home;
+          </div> */
+}

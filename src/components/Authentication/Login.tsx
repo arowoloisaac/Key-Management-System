@@ -19,7 +19,7 @@ const Login = () => {
     } else {
       setIsAuthenticated(false);
     }
-  });
+  }, [savedToken]);
 
   const data = {
     email: getEmail,
@@ -30,18 +30,16 @@ const Login = () => {
     event.preventDefault();
     if (!isAuthenticated) {
       Axios.post("https://localhost:7267/api/login", data).then((res) => {
-        res.data;
-
+        // res.data;
         setStatus(res.status);
-
-        if (getStatus === 200) {
+        if (res.status === 200) {
           localStorage.setItem("token", res.data.token);
           navigate("/");
           window.location.reload();
         } else {
           navigate("/login");
         }
-      });
+      }).catch(ex => ex.status);
     } else {
       if (getStatus === 401 || getStatus === 403) {
         localStorage.clear();

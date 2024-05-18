@@ -13,8 +13,10 @@ const NavBar = () => {
       headers: { Authorization: `Bearer ${savedData}` },
     }).then((res) => {
       setEmail(res.data.email);
+    }).catch((ex) => {
+      console.log(ex.response.status)
     });
-  });
+  }, [savedData]);
 
   useEffect(() => {
     if (savedData) {
@@ -22,7 +24,7 @@ const NavBar = () => {
     } else {
       setIsAuthenticated(false);
     }
-  });
+  }, []);
 
   const handleLogout = () => {
     if (!isAuthenticated) {
@@ -41,15 +43,19 @@ const NavBar = () => {
           localStorage.clear();
           window.location.reload();
         }
+      }).catch((ex) => {
+        if (ex.response.status === 401 || ex.response.status === 403) {
+          localStorage.clear();
+          window.location.reload();
+        }
+        
       });
-    } else {
-      if (status === 401 || status === 403) {
-        localStorage.clear();
-        window.location.reload();
-      }
-      // localStorage.clear();
-      // window.location.reload();
-    }
+    } 
+    // else {
+      
+    //   localStorage.clear();
+    //   window.location.reload();
+    // }
     
   };
 
@@ -79,14 +85,25 @@ const NavBar = () => {
                     Home
                   </a>
                 </li>
-                {/* <li className="nav-item">
-                  <a className="nav-link" href="/Key">
-                    RequestKey
-                  </a>
-                </li> */}
                 <li className="nav-item">
-                  <a className="nav-link" href="#"></a>
+                  <a className="nav-link" href="/request">
+                    InBoard
+                  </a>
                 </li>
+
+                <li className="nav-item">
+                  <a className="nav-link" href="/thirdparty">
+                    ThirdParty
+                  </a>
+                </li>
+                
+                <li className="nav-item">
+                  <a className="nav-link" href="#">
+                    check
+                  </a>
+                </li>
+
+                <span></span>
               </ul>
               <div></div>
               {isAuthenticated === true ? (
@@ -106,7 +123,7 @@ const NavBar = () => {
                 </div>
               ) : (
                 <div>
-                  <a href="/login" style={{ marginRight: "1%" }}>
+                  <a href="/login" style={{ marginRight: "10px" }}>
                     <button type="button" className="btn btn-secondary">
                       Login
                     </button>
