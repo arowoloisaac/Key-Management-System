@@ -32,10 +32,10 @@ const UpdateProfile = () => {
     phoneNumber: getNumber || getProfile?.phoneNumber,
   };
 
-  useEffect(() => {
-    console.log(data);
-    console.log(getProfile?.firstName)
-  },[data, getProfile]);
+  // useEffect(() => {
+  //   console.log(data);
+  //   console.log(getProfile?.firstName)
+  // },[data, getProfile]);
 
   const updateProfileButton = () => {
     Axios.put("https://localhost:7267/api/profile", data, {

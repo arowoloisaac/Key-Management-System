@@ -2,21 +2,22 @@ import { useEffect, useState } from "react";
 import Axios from "axios";
 
 const NavBar = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>();
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const savedData = localStorage.getItem("token");
   const [getEMail, setEmail] = useState("");
 
-  const [status, setStatus] = useState<number>()
-
   useEffect(() => {
+    const savedData = localStorage.getItem("token");
     Axios.get("https://localhost:7267/api/profile", {
       headers: { Authorization: `Bearer ${savedData}` },
-    }).then((res) => {
-      setEmail(res.data.email);
-    }).catch((ex) => {
-      console.log(ex.response.status)
-    });
-  }, [savedData]);
+    })
+      .then((res) => {
+        setEmail(res.data.email);
+      })
+      .catch((ex) => {
+        ex.response.status;
+      });
+  }, []);
 
   useEffect(() => {
     if (savedData) {
@@ -26,37 +27,30 @@ const NavBar = () => {
     }
   }, []);
 
-  const handleLogout = () => {
-    if (!isAuthenticated) {
+  const handleLogout = (event: any) => {
+    event.preventDefault();
+    if (isAuthenticated == true) {
       Axios.post(
         "https://localhost:7267/api/logout",
         {},
         {
           headers: { Authorization: `Bearer ${savedData}` },
         }
-      ).then((res) => {
-        setStatus(res.status)
-
-        if (status === 200) {
+      )
+        .then((res) => {
+          res.status;
           localStorage.removeItem("token");
           setIsAuthenticated(false);
+          window.location.reload();
+        })
+        .catch((ex) => {
           localStorage.clear();
           window.location.reload();
-        }
-      }).catch((ex) => {
-        if (ex.response.status === 401 || ex.response.status === 403) {
-          localStorage.clear();
-          window.location.reload();
-        }
-        
-      });
-    } 
-    // else {
-      
-    //   localStorage.clear();
-    //   window.location.reload();
-    // }
-    
+        });
+    } else {
+      localStorage.clear();
+      window.location.reload();
+    }
   };
 
   return (
@@ -85,23 +79,29 @@ const NavBar = () => {
                     Home
                   </a>
                 </li>
-                <li className="nav-item">
-                  <a className="nav-link" href="/request">
-                    InBoard
-                  </a>
-                </li>
+                {isAuthenticated ? (
+                  <>
+                    <li className="nav-item">
+                      <a className="nav-link" href="/request">
+                        InBoard
+                      </a>
+                    </li>
 
-                <li className="nav-item">
-                  <a className="nav-link" href="/thirdparty">
-                    ThirdParty
-                  </a>
-                </li>
-                
-                <li className="nav-item">
-                  <a className="nav-link" href="#">
-                    check
-                  </a>
-                </li>
+                    <li className="nav-item">
+                      <a className="nav-link" href="/thirdparty">
+                        ThirdParty
+                      </a>
+                    </li>
+
+                    <li className="nav-item">
+                      <a className="nav-link" href="#">
+                        check
+                      </a>
+                    </li>
+                  </>
+                ) : (
+                  <div></div>
+                )}
 
                 <span></span>
               </ul>

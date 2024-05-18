@@ -18,6 +18,13 @@ const Signup = () => {
   //const [faculty, setFaculty] = useState("");
   const [password, setPassword] = useState("");
 
+
+  const [fNameFocused, setFNameFocused] = useState(false);
+  const [lNameFocused, setLNameFocused] = useState(false);
+  const [pNumberFocused, setPNumberFocused] = useState(false);
+  const [emailFocused, setEmailFocused] = useState(false);
+  const [passwordFocused, setPasswordFocused] = useState(false);
+
   const [status, setStatus] = useState(0);
 
   const data = {
@@ -63,8 +70,16 @@ const Signup = () => {
                         className="form-control"
                         placeholder="John"
                         onChange={(opt) => setFName(opt.target.value)}
+                        onFocus={() => setFNameFocused(true)}
+                        onBlur={() => setFNameFocused(false)}
+                        required
                       />
                       <label>First Name</label>
+                      {fName.trim() === "" && fNameFocused && (
+                        <span className="text-danger">
+                          First name is required
+                        </span>
+                      )}
                     </div>
 
                     <div
@@ -76,8 +91,16 @@ const Signup = () => {
                         className="form-control"
                         placeholder="Doe"
                         onChange={(opt) => setLName(opt.target.value)}
+                        required
+                        onFocus={() => setLNameFocused(true)}
+                        onBlur={() => setLNameFocused(false)}
                       />
                       <label>Last Name</label>
+                      {lName.trim() === "" && lNameFocused && (
+                        <span className="text-danger">
+                          Last name is required
+                        </span>
+                      )}
                     </div>
 
                     <div
@@ -87,12 +110,20 @@ const Signup = () => {
                       <input
                         type="tel"
                         minLength={11}
-                        maxLength={12}
+                        maxLength={14}
                         className="form-control"
                         placeholder="+7(9xx)-xxx-xx-xx"
                         onChange={(opt) => setPNumber(opt.target.value)}
+                        required
+                        onFocus={() => setPNumberFocused(true)}
+                        onBlur={() => setPNumberFocused(false)}
                       />
                       <label>Phone Number</label>
+                      {pNumber.trim() === "" && pNumberFocused && (
+                        <span className="text-danger">
+                          Phone number is required
+                        </span>
+                      )}
                     </div>
 
                     {/* <div
@@ -116,11 +147,20 @@ const Signup = () => {
                         className="form-control"
                         placeholder="name@example.com"
                         onChange={(opt) => setEmail(opt.target.value)}
+                        required
+                        onFocus={() => setEmailFocused(true)}
+                        onBlur={() => setEmailFocused(false)}
                       />
                       <label>Email address</label>
-                      <div style={{ fontSize: "10px" }}>
+                      {email.trim() === "" && emailFocused && (
+                        <span className="text-danger">
+                          Email address is required
+                        </span>
+                      )}
+
+                      {/* <div style={{ fontSize: "10px" }}>
                         Email will be used for login
-                      </div>
+                      </div> */}
                     </div>
 
                     <div
@@ -132,8 +172,17 @@ const Signup = () => {
                         className="form-control"
                         placeholder="Password"
                         onChange={(opt) => setPassword(opt.target.value)}
+                        required
+                        minLength={6}
+                        onFocus={() => setPasswordFocused(true)}
+                        onBlur={() => setPasswordFocused(false)}
                       />
                       <label>Password</label>
+                      {password.trim() === "" && passwordFocused && (
+                        <span className="text-danger">
+                          Password is required
+                        </span>
+                      )}
                     </div>
                   </form>
                   <button
