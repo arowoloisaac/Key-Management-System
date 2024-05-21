@@ -11,6 +11,7 @@ import PageError from "./components/Error/PageError";
 import NavBar from "./sharedComponent/Navbar";
 import RequestKey from "./components/Key/RequestKey";
 import ThirdParty from "./components/Key/ThirdParty";
+import With from "./components/Key/With";
 
 function App() {
   return (
@@ -24,7 +25,8 @@ function App() {
           <Route path="/profile" element={<ViewProfile />} />
           <Route path="/edit-profile" element={<UpdateProfile />} />
           <Route path="/request" element={<RequestKey />} />
-          <Route path="/thirdparty" element={<ThirdParty />  }/>
+          <Route path="/thirdparty" element={<ThirdParty />} />
+          <Route path="/with" element={<With />} />
           <Route path="/*" element={<PageError />} />
         </Routes>
       </Router>

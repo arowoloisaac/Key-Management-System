@@ -1,10 +1,14 @@
 import { useEffect, useState } from "react";
 import Axios from "axios";
+import { KeyWith } from "../components/Key/With";
 
 const NavBar = () => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const savedData = localStorage.getItem("token");
   const [getEMail, setEmail] = useState("");
+
+  const [getWith, setWith] = useState<KeyWith>();
+  const [isWith, setIsWith] = useState<boolean>(false);
 
   useEffect(() => {
     const savedData = localStorage.getItem("token");
@@ -43,7 +47,7 @@ const NavBar = () => {
           setIsAuthenticated(false);
           window.location.reload();
         })
-        .catch((ex) => {
+        .catch(() => {
           localStorage.clear();
           window.location.reload();
         });
@@ -52,6 +56,15 @@ const NavBar = () => {
       window.location.reload();
     }
   };
+
+   useEffect(() => {
+     Axios.get("https://localhost:7267/api/with-you", {
+       headers: { Authorization: `bearer ${savedData}` },
+     }).then((res) => {
+       setWith(res.data);
+       setIsWith(getWith?.roomNumber !== null);
+     });
+   }, [savedData]);
 
   return (
     <>
@@ -82,9 +95,15 @@ const NavBar = () => {
                 {isAuthenticated ? (
                   <>
                     <li className="nav-item">
-                      <a className="nav-link" href="/request">
-                        InBoard
-                      </a>
+                      {isWith == false ? (
+                        <a className="nav-link" href="/request">
+                          InBoard
+                        </a>
+                      ) : (
+                        <a className="nav-link" href="/with">
+                          In Possession
+                        </a>
+                      )}
                     </li>
 
                     <li className="nav-item">
