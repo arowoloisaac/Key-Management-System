@@ -1,17 +1,23 @@
 import { useEffect, useState } from "react";
 import Axios from "axios";
-import { KeyWith } from "../components/Key/With";
+import { KeyWith } from "../Key/With";
+import "../../assets/CSS/NavbarCSS/Navbar.css";
+
 
 const NavBar = () => {
+  // const navigate = useNavigate();
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const savedData = localStorage.getItem("token");
   const [getEMail, setEmail] = useState("");
 
   const [getWith, setWith] = useState<KeyWith>();
   const [isWith, setIsWith] = useState<boolean>(false);
-
+  const [notification, hasNotification] = useState<boolean>(false);
+  
+  
+  // to get the profile of the user
   useEffect(() => {
-    const savedData = localStorage.getItem("token");
+    // const savedData = localStorage.getItem("token");
     Axios.get("https://localhost:7267/api/profile", {
       headers: { Authorization: `Bearer ${savedData}` },
     })
@@ -21,15 +27,26 @@ const NavBar = () => {
       .catch((ex) => {
         ex.response.status;
       });
-  }, []);
+  }, [savedData]);
 
+  // to check if user is authenticated or unauthenticated
   useEffect(() => {
     if (savedData) {
       setIsAuthenticated(true);
     } else {
       setIsAuthenticated(false);
     }
-  }, []);
+  }, [savedData]);
+
+  //this to check if the user has a thirdparty request which returns a booleam value
+  useEffect(() => {
+    Axios.get("https://localhost:7267/api/get-notifier", {
+      headers: { Authorization: `Bearer ${savedData}` },
+    }).then((res) => {
+      // console.log(res.data)
+      hasNotification(res.data);
+    });
+  }, [savedData]);
 
   const handleLogout = (event: any) => {
     event.preventDefault();
@@ -57,15 +74,16 @@ const NavBar = () => {
     }
   };
 
-   useEffect(() => {
-     Axios.get("https://localhost:7267/api/with-you", {
-       headers: { Authorization: `bearer ${savedData}` },
-     }).then((res) => {
-       setWith(res.data);
-       setIsWith(getWith?.roomNumber !== null);
-     });
-   }, [savedData]);
+  useEffect(() => {
+    Axios.get("https://localhost:7267/api/with-you", {
+      headers: { Authorization: `bearer ${savedData}` },
+    }).then((res) => {
+      setWith(res.data);
+      setIsWith(getWith?.roomNumber !== null);
+    });
+  }, [savedData]);
 
+  console.log(notification);
   return (
     <>
       <div>
@@ -114,14 +132,18 @@ const NavBar = () => {
 
                     <li className="nav-item">
                       <a className="nav-link" href="#">
-                        check
+                        Notification
+                        {notification ? (
+                          <span id="notifier">0</span>
+                        ) : (
+                          <span></span>
+                        )}
                       </a>
                     </li>
                   </>
                 ) : (
                   <div></div>
                 )}
-
                 <span></span>
               </ul>
               <div></div>

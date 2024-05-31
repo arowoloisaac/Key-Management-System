@@ -1,9 +1,9 @@
 import "bootstrap/js/src/collapse.js";
 import "bootstrap/js/src/dropdown.js";
-import "../CSS/Home.css";
+import "../../assets/CSS/Home.css"
 import Axios from "axios";
 import { useState } from "react";
-import "../CSS/RequestKey.css";
+import "../../assets/CSS/RequestKey.css";
 import Key from "../Key/Key";
 
 export interface IKeys {

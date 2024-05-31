@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Axios from "axios";
 import { IKeys } from "../Home/Home";
-import "../CSS/RequestKey.css";
+import "../../assets/CSS/RequestKey.css";
 
 const RequestKey = () => {
   const [getKeys, setKeys] = useState<IKeys[]>([]);

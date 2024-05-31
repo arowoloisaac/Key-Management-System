@@ -32,11 +32,6 @@ const UpdateProfile = () => {
     phoneNumber: getNumber || getProfile?.phoneNumber,
   };
 
-  // useEffect(() => {
-  //   console.log(data);
-  //   console.log(getProfile?.firstName)
-  // },[data, getProfile]);
-
   const updateProfileButton = () => {
     Axios.put("https://localhost:7267/api/profile", data, {
       headers: { Authorization: `bearer ${token}` },
@@ -91,7 +86,6 @@ const UpdateProfile = () => {
                           <div className="col-sm-3 col-md-2 col-5">
                             <label>Last Name</label>
                           </div>
-                          {/* <div className="col-md-8 col-6">{getProfile?.birthDate.split('T')[0]}</div> */}
                           <div className="col-md-8 col-6">
                             <input
                               type="text"

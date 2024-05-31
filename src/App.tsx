@@ -8,7 +8,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap/js/src/collapse.js";
 import Home from "./components/Home/Home";
 import PageError from "./components/Error/PageError";
-import NavBar from "./sharedComponent/Navbar";
+import NavBar from "./components/sharedComponent/Navbar";
 import RequestKey from "./components/Key/RequestKey";
 import ThirdParty from "./components/Key/ThirdParty";
 import With from "./components/Key/With";

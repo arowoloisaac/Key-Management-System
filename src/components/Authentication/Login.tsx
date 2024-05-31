@@ -30,7 +30,6 @@ const Login = () => {
     event.preventDefault();
     if (!isAuthenticated) {
       Axios.post("https://localhost:7267/api/login", data).then((res) => {
-        // res.data;
         setStatus(res.status);
         if (res.status === 200) {
           localStorage.setItem("token", res.data.token);

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Axios from "axios";
-import "../CSS/profileCSS/view.css";
+import "../../assets/CSS/profileCSS/view.css";
 
 export interface User {
   firstName: string,
