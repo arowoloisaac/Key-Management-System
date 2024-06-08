@@ -4,8 +4,9 @@ import { KeyWith } from "../Key/With";
 import "../../assets/CSS/NavbarCSS/Navbar.css";
 
 
+
 const NavBar = () => {
-  // const navigate = useNavigate();
+
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const savedData = localStorage.getItem("token");
   const [getEMail, setEmail] = useState("");
@@ -13,11 +14,9 @@ const NavBar = () => {
   const [getWith, setWith] = useState<KeyWith>();
   const [isWith, setIsWith] = useState<boolean>(false);
   const [notification, hasNotification] = useState<boolean>(false);
-  
-  
+
   // to get the profile of the user
   useEffect(() => {
-    // const savedData = localStorage.getItem("token");
     Axios.get("https://localhost:7267/api/profile", {
       headers: { Authorization: `Bearer ${savedData}` },
     })
@@ -43,7 +42,6 @@ const NavBar = () => {
     Axios.get("https://localhost:7267/api/get-notifier", {
       headers: { Authorization: `Bearer ${savedData}` },
     }).then((res) => {
-      // console.log(res.data)
       hasNotification(res.data);
     });
   }, [savedData]);
@@ -62,6 +60,7 @@ const NavBar = () => {
           res.status;
           localStorage.removeItem("token");
           setIsAuthenticated(false);
+          // setStatus(true)
           window.location.reload();
         })
         .catch(() => {
@@ -84,6 +83,7 @@ const NavBar = () => {
   }, [savedData]);
 
   console.log(notification);
+  // console.log(status)
   return (
     <>
       <div>
@@ -114,31 +114,31 @@ const NavBar = () => {
                   <>
                     <li className="nav-item">
                       {isWith == false ? (
-                        <a className="nav-link" href="/request">
-                          InBoard
-                        </a>
+                        <>
+                          <a className="nav-link" href="/request">
+                            InBoard
+                          </a>
+                          <li className="nav-item">
+                            <a className="nav-link" href="/thirdparty">
+                              ThirdParty
+                            </a>
+                          </li>
+                        </>
                       ) : (
                         <a className="nav-link" href="/with">
-                          In Possession
+                          In-Possession
                         </a>
                       )}
                     </li>
 
                     <li className="nav-item">
-                      <a className="nav-link" href="/thirdparty">
-                        ThirdParty
-                      </a>
-                    </li>
-
-                    <li className="nav-item">
-                      <a className="nav-link" href="#">
-                        Notification
-                        {notification ? (
-                          <span id="notifier">0</span>
-                        ) : (
-                          <span></span>
-                        )}
-                      </a>
+                      {notification ? (
+                        <a className="nav-link" href="#">
+                          Notification <span id="notifier">0</span>
+                        </a>
+                      ) : (
+                        <span></span>
+                      )}
                     </li>
                   </>
                 ) : (
@@ -152,7 +152,7 @@ const NavBar = () => {
                   <a href="/profile">
                     <span style={{ marginRight: "20px" }}>{getEMail}</span>
                   </a>
-                  <a href="">
+                  <a href= "">
                     <button
                       type="button"
                       className="btn btn-danger"

@@ -28,7 +28,7 @@ const With = () => {
         console.error("Error fetching data", error);
       }
     };
-    fetchData()
+    fetchData();
   }, [token]);
 
   // useEffect(() => {
@@ -39,7 +39,6 @@ const With = () => {
 
   //   });
   // }, []);
-
 
   const handleReturn = async () => {
     await Axios.put(
@@ -75,7 +74,8 @@ const With = () => {
                       {getWith?.collectionTime
                         .slice(0, 10)
                         .split("-")
-                        .reverse()}
+                        .reverse()
+                        .join("-")}
                     </div>
                   </div>
                   <hr />

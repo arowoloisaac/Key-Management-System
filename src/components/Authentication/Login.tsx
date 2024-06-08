@@ -36,7 +36,8 @@ const Login = () => {
           navigate("/");
           window.location.reload();
         } else {
-          navigate("/login");
+          // navigate("/login");
+          alert("Invalid credentials")
         }
       }).catch(ex => ex.status);
     } else {

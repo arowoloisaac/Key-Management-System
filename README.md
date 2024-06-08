@@ -1,5 +1,21 @@
-# React + TypeScript + Vite
+# Key Management System <KMS>
 
+The project main goal to implement a full and responsive system where Key collectors can request key and in order to have access to the specific key they selected, it must be assigned to them by the worker.
+
+<!-- This project calls the API to the backend which was   -->
+
+Technologies and Libraries used: 
+- React + Typescript
+- Bootstrap
+- React-Router-Dom
+- Axios
+
+<!-- How to work with this project:
+  - git clone `the link of the project`
+  - cd/ `to the created folder`
+  npm run dev
+  link the link to open the localhost port -->
+<!-- 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
 Currently, two official plugins are available:
@@ -23,13 +39,4 @@ export default {
     tsconfigRootDir: __dirname,
   },
 }
-```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
-
-
-# Key Management System<KMS>
-
-The proj
+``` -->

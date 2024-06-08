@@ -3,21 +3,65 @@ import { IKeys } from "../Home/Home";
 import Axios from "axios";
 
 const ThirdParty = () => {
+  const savedToken = localStorage.getItem("token");
   const [getKeys, setKeys] = useState<IKeys[]>([]);
 
-  useEffect(() => {
+  const [activities, setActivities] = useState<{ [key: string]: string }>({});
+  const [activitySelected, setActivitySelected] = useState<{
+    [key: string]: boolean;
+  }>({});
+
+  //handle the changes and buttons relating to the specific target
+  const handleActivityChange = (keyId: string, activity: string) => {
+    setActivities((prevRoles) => ({
+      ...prevRoles,
+      [keyId]: activity,
+    }));
+
+    //get the selected activity
+    setActivitySelected((prevRoleSelected) => ({
+      ...prevRoleSelected,
+      [keyId]: true,
+    }));
+  };
+
+  // get the unavailable keys
+  const unavailableKeys = () => {
     Axios.get("https://localhost:7267/api/get-keys?key=Unavailable").then(
       (res) => {
         setKeys(res.data);
       }
     );
-  }, []);
+  };
 
-  console.log(getKeys);
+  //handle thirdparty request
+  const handleRequest = (key: any) => {
+    let getActivity = activities[key.id];
+
+    Axios.post(
+      `https://localhost:7267/api/Send-request?keyId=${key.id}&activity=${getActivity}`,
+      {},
+      { headers: { Authorization: `Bearer ${savedToken}` } }
+    )
+      .then((res) => {
+        if (res.status === 200) {
+          alert(res.data);
+          location.reload();
+        }
+      })
+      .catch((ex) => {
+        ex.message;
+      });
+  };
+
+  useEffect(() => {
+    handleActivityChange;
+    unavailableKeys();
+  }, []);
 
   return (
     <>
-      <div>
+      <div style={{ paddingTop: "40px" }}>
         <div className="container">
           {getKeys.length > 0 ? (
             getKeys.map((key) => (
@@ -34,15 +78,30 @@ const ThirdParty = () => {
                   {key.room}
                 </div>
                 <div className="col-4 col-lg-2 col-sm-3" id="key-selector">
-                  <select className="form-select form-select-sm">
-                    <option selected>Lecture</option>
+                  <select
+                    className="form-select form-select-sm"
+                    onChange={(event) =>
+                      handleActivityChange(key.id, event.target.value)
+                    }
+                    value={activities[key.id]}
+                  >
+                    <option disabled selected>
+                      Activities
+                    </option>
+                    <option>Lecture</option>
                     <option>Seminar</option>
                     <option>Study</option>
                     <option>Repair</option>
+                    <option value="OffSchedule">Others</option>
                   </select>
                 </div>
                 <div className="col-3 col-lg-2 col-sm-3" id="key-request">
-                  <button className="btn btn-sm btn-primary" type="button">
+                  <button
+                    className="btn btn-sm btn-primary"
+                    type="button"
+                    disabled={!activitySelected[key.id]}
+                    onClick={() => handleRequest(key)}
+                  >
                     Request
                   </button>
                 </div>

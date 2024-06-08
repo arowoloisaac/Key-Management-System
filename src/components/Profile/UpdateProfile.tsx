@@ -4,7 +4,6 @@ import { User } from "./ViewProfile";
 import { useNavigate } from "react-router-dom";
 
 const UpdateProfile = () => {
-
   const [getFName, setFName] = useState<string>();
   const [getLName, setLName] = useState<string>();
   const [getNumber, setNumber] = useState<string>();
