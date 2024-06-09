@@ -12,6 +12,7 @@ import NavBar from "./components/sharedComponent/Navbar";
 import RequestKey from "./components/Key/RequestKey";
 import ThirdParty from "./components/Key/ThirdParty";
 import With from "./components/Key/With";
+import ReviewRequest from "./components/Key/ReviewRequest";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
           <Route path="/request" element={<RequestKey />} />
           <Route path="/thirdparty" element={<ThirdParty />} />
           <Route path="/with" element={<With />} />
+          <Route path="/notification" element={<ReviewRequest />} />
           <Route path="/*" element={<PageError />} />
         </Routes>
       </Router>

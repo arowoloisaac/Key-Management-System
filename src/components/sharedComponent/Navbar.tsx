@@ -112,28 +112,30 @@ const NavBar = () => {
                 </li>
                 {isAuthenticated ? (
                   <>
-                    <li className="nav-item">
-                      {isWith == false ? (
-                        <>
+                    {!isWith ? (
+                      <>
+                        <li className="nav-item">
                           <a className="nav-link" href="/request">
                             InBoard
                           </a>
-                          <li className="nav-item">
-                            <a className="nav-link" href="/thirdparty">
-                              ThirdParty
-                            </a>
-                          </li>
-                        </>
-                      ) : (
+                        </li>
+                        <li className="nav-item">
+                          <a className="nav-link" href="/thirdparty">
+                            ThirdParty
+                          </a>
+                        </li>
+                      </>
+                    ) : (
+                      <li className="nav-item">
                         <a className="nav-link" href="/with">
                           In-Possession
                         </a>
-                      )}
-                    </li>
-
+                      </li>
+                    )}
+                    
                     <li className="nav-item">
                       {notification ? (
-                        <a className="nav-link" href="#">
+                        <a className="nav-link" href="/notification">
                           Notification <span id="notifier">0</span>
                         </a>
                       ) : (
@@ -152,7 +154,7 @@ const NavBar = () => {
                   <a href="/profile">
                     <span style={{ marginRight: "20px" }}>{getEMail}</span>
                   </a>
-                  <a href= "">
+                  <a href="">
                     <button
                       type="button"
                       className="btn btn-danger"
