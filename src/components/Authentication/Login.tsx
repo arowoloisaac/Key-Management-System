@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { ApiURL } from "../../App";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -29,14 +30,13 @@ const Login = () => {
   const handleLogin = (event: any) => {
     event.preventDefault();
     if (!isAuthenticated) {
-      Axios.post("https://localhost:7267/api/login", data).then((res) => {
+      Axios.post(`${ApiURL}/login`, data).then((res) => {
         setStatus(res.status);
         if (res.status === 200) {
           localStorage.setItem("token", res.data.token);
           navigate("/");
           window.location.reload();
         } else {
-          // navigate("/login");
           alert("Invalid credentials")
         }
       }).catch(ex => ex.status);

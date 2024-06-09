@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Axios from "axios";
 import "../../assets/CSS/profileCSS/view.css";
+import { ApiURL, Token } from "../../App";
 
 export interface User {
   firstName: string,
@@ -10,13 +11,12 @@ export interface User {
 }
 
 const ViewProfile = () => {
-  const token = localStorage.getItem("token");
 
   const [getProfile, setProfile] = useState<User>();
   useEffect(() => {
-    Axios.get("https://localhost:7267/api/profile", {
+    Axios.get(`${ApiURL}/profile`, {
       headers: {
-        Authorization: `bearer ${token}`,
+        Authorization: `bearer ${Token}`,
       },
     }).then((res) => {
       setProfile(res.data)

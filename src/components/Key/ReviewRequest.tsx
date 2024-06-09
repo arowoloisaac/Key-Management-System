@@ -1,19 +1,19 @@
 import { useEffect, useState } from "react";
 import Axios from "axios";
+import { ApiURL, Token } from "../../App";
 
 export interface IThirdPartyKey {
   keyId: string, name: string
 }
 
 const ReviewRequest = () => {
-  const savedToken = localStorage.getItem("token");
   const [key, setKey] = useState<IThirdPartyKey>();
 
   const [hasNotification, setHasNotification] = useState<boolean>(false);
 
   const getKey = () => {
-    Axios.get("https://localhost:7267/api/get-request", {
-      headers: { Authorization: `Bearer ${savedToken}` },
+    Axios.get(`${ApiURL}/get-request`, {
+      headers: { Authorization: `Bearer ${Token}` },
     })
       .then((res) => {
         if (res.status === 200) {
@@ -28,8 +28,8 @@ const ReviewRequest = () => {
 
   //returns boolean
   const getNotification = () => {
-    Axios.get("https://localhost:7267/api/get-notifier", {
-      headers: { Authorization: `Bearer ${savedToken}` },
+    Axios.get(`${ApiURL}/get-notifier`, {
+      headers: { Authorization: `Bearer ${Token}` },
     }).then((res) => {
       setHasNotification(res.data);
     });
@@ -39,9 +39,9 @@ const ReviewRequest = () => {
   const handleAccept = (key: any) => {
     const keyId = key.id;
     Axios.put(
-      `https://localhost:7267/api/accept-request?keyId=${keyId}`,
+      `${ApiURL}/accept-request?keyId=${keyId}`,
       {},
-      { headers: { Authorization: `Bearer ${savedToken}` } }
+      { headers: { Authorization: `Bearer ${Token}` } }
     )
       .then((res) => {
         alert(res.data.text);
@@ -54,9 +54,9 @@ const ReviewRequest = () => {
   const handleReject = (key: any) => {
     const keyId = key.id;
     Axios.put(
-      `https://localhost:7267/api/reject-request?keyId=${keyId}`,
+      `${ApiURL}/reject-request?keyId=${keyId}`,
       {},
-      { headers: { Authorization: `Bearer ${savedToken}` } }
+      { headers: { Authorization: `Bearer ${Token}` } }
     )
       .then((res) => {
         alert(res.data.text)

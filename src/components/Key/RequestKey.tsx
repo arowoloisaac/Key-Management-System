@@ -2,28 +2,44 @@ import { useEffect, useState } from "react";
 import Axios from "axios";
 import { IKeys } from "../Home/Home";
 import "../../assets/CSS/RequestKey.css";
+import { ApiURL, Token } from "../../App";
 
 const RequestKey = () => {
   const [getKeys, setKeys] = useState<IKeys[]>([]);
 
-  //for the select key options
-  const [getActiviy, setActivity] = useState<any>(null);
+   const [activities, setActivities] = useState<{ [key: string]: string }>({});
+   const [activitySelected, setActivitySelected] = useState<{
+     [key: string]: boolean;
+   }>({});
 
-  const token = localStorage.getItem("token");
+
+  const handleActivityChange = (keyId: string, activity: string) => {
+    setActivities((prevRoles) => ({
+      ...prevRoles,
+      [keyId]: activity,
+    }));
+
+    //get the selected activity
+    setActivitySelected((prevRoleSelected) => ({
+      ...prevRoleSelected,
+      [keyId]: true,
+    }));
+  };
   
   useEffect(() => {
-    Axios.get("https://localhost:7267/api/get-keys?key=Available").then(
+    Axios.get(`${ApiURL}/get-keys?key=Available`).then(
       (res) => {
         setKeys(res.data);
       }
     );
   }, []);
 
-  const handleRequest = (key: IKeys) => {
+  const handleRequest = (key: any) => {
     var room = key.id;
-    const Api = `https://localhost:7267/api/collect-key?keyId=${room}&activity=${getActiviy}`;
+    let getActivity = activities[key.id]
+    const Api = `${ApiURL}/collect-key?keyId=${room}&activity=${getActivity}`;
     console.log(Api);
-    Axios.post(Api, {}, { headers: { Authorization: `bearer ${token}` } })
+    Axios.post(Api, {}, { headers: { Authorization: `bearer ${Token}` } })
       .then((res) => {
         console.log(res.data);
         alert("Request Sent, await your response!");
@@ -62,10 +78,12 @@ const RequestKey = () => {
                   <select
                     className="form-select form-select-sm"
                     onClick={(event: any) => {
-                      setActivity(event.target.value);
+                      handleActivityChange(key.id, event.target.value)
+                      // setActivity(event.target.value);
                     }}
                   >
-                    <option selected>Lecture</option>
+                    <option disabled selected>Activity</option>
+                    <option>Lecture</option>
                     <option>Seminar</option>
                     <option>Study</option>
                     <option>Repair</option>
@@ -77,6 +95,7 @@ const RequestKey = () => {
                     className="btn btn-sm btn-primary"
                     type="button"
                     onClick={() => handleRequest(key)}
+                    disabled={!activitySelected[key.id]}
                   >
                     Request
                   </button>

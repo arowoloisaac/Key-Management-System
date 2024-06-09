@@ -1,11 +1,12 @@
 import Axios from "axios";
 import { IKeys } from "../Home/Home";
 import { useEffect, useState } from "react";
+import { ApiURL } from "../../App";
 
 const UnfilteredKey = () => {
   const [getKeys, setKeys] = useState<IKeys[]>([]);
   useEffect(() => {
-    Axios.get("https://localhost:7267/api/get-keys").then((response) =>
+    Axios.get(`${ApiURL}/get-keys`).then((response) =>
       setKeys(response.data)
     );
   }, []);

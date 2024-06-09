@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { IKeys } from "../Home/Home";
 import Axios from "axios";
+import { ApiURL, Token } from "../../App";
 
 const ThirdParty = () => {
-  const savedToken = localStorage.getItem("token");
   const [getKeys, setKeys] = useState<IKeys[]>([]);
 
   const [activities, setActivities] = useState<{ [key: string]: string }>({});
@@ -27,7 +27,7 @@ const ThirdParty = () => {
 
   // get the unavailable keys
   const unavailableKeys = () => {
-    Axios.get("https://localhost:7267/api/get-keys?key=Unavailable").then(
+    Axios.get(`${ApiURL}/get-keys?key=Unavailable`).then(
       (res) => {
         setKeys(res.data);
       }
@@ -39,9 +39,9 @@ const ThirdParty = () => {
     let getActivity = activities[key.id];
 
     Axios.post(
-      `https://localhost:7267/api/Send-request?keyId=${key.id}&activity=${getActivity}`,
+      `${ApiURL}/Send-request?keyId=${key.id}&activity=${getActivity}`,
       {},
-      { headers: { Authorization: `Bearer ${savedToken}` } }
+      { headers: { Authorization: `Bearer ${Token}` } }
     )
       .then((res) => {
         if (res.status === 200) {

@@ -3,6 +3,7 @@ import "../../assets/CSS/Signup.css";
 import Axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Home from "../Home/Home";
+import { ApiURL } from "../../App";
 
 export interface ApiResponse {
   token: string;
@@ -11,16 +12,14 @@ export interface ApiResponse {
 const Signup = () => {
   const navigate = useNavigate();
 
-  const [fName, setFName] = useState("");
-  const [lName, setLName] = useState("");
+  const [firstname, setFirstname] = useState("");
+  const [lastname, setLastname] = useState("");
   const [email, setEmail] = useState("");
-  const [pNumber, setPNumber] = useState("");
-  //const [faculty, setFaculty] = useState("");
+  const [PhoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
 
-
-  const [fNameFocused, setFNameFocused] = useState(false);
-  const [lNameFocused, setLNameFocused] = useState(false);
+  const [firstnameFocused, setfirstnameFocused] = useState(false);
+  const [lastnameFocused, setlastnameFocused] = useState(false);
   const [pNumberFocused, setPNumberFocused] = useState(false);
   const [emailFocused, setEmailFocused] = useState(false);
   const [passwordFocused, setPasswordFocused] = useState(false);
@@ -28,17 +27,16 @@ const Signup = () => {
   const [status, setStatus] = useState(0);
 
   const data = {
-    firstName: fName,
-    lastName: lName,
+    firstName: firstname,
+    lastName: lastname,
     email: email,
-    phoneNumber: pNumber,
+    phoneNumber: PhoneNumber,
     password: password,
   };
 
-  console.log(data);
   const register = () => {
     Axios.post<ApiResponse>(
-      "https://localhost:7267/api/register-collector",
+      `${ApiURL}/register-collector`,
       data
     ).then((res) => {
       setStatus(res.status);
@@ -69,13 +67,13 @@ const Signup = () => {
                         type="text"
                         className="form-control"
                         placeholder="John"
-                        onChange={(opt) => setFName(opt.target.value)}
-                        onFocus={() => setFNameFocused(true)}
-                        onBlur={() => setFNameFocused(false)}
+                        onChange={(opt) => setFirstname(opt.target.value)}
+                        onFocus={() => setfirstnameFocused(true)}
+                        onBlur={() => setfirstnameFocused(false)}
                         required
                       />
                       <label>First Name</label>
-                      {fName.trim() === "" && fNameFocused && (
+                      {firstname.trim() === "" && firstnameFocused && (
                         <span className="text-danger">
                           First name is required
                         </span>
@@ -90,13 +88,13 @@ const Signup = () => {
                         type="text"
                         className="form-control"
                         placeholder="Doe"
-                        onChange={(opt) => setLName(opt.target.value)}
+                        onChange={(opt) => setLastname(opt.target.value)}
                         required
-                        onFocus={() => setLNameFocused(true)}
-                        onBlur={() => setLNameFocused(false)}
+                        onFocus={() => setlastnameFocused(true)}
+                        onBlur={() => setlastnameFocused(false)}
                       />
                       <label>Last Name</label>
-                      {lName.trim() === "" && lNameFocused && (
+                      {lastname.trim() === "" && lastnameFocused && (
                         <span className="text-danger">
                           Last name is required
                         </span>
@@ -113,30 +111,18 @@ const Signup = () => {
                         maxLength={14}
                         className="form-control"
                         placeholder="+7(9xx)-xxx-xx-xx"
-                        onChange={(opt) => setPNumber(opt.target.value)}
+                        onChange={(opt) => setPhoneNumber(opt.target.value)}
                         required
                         onFocus={() => setPNumberFocused(true)}
                         onBlur={() => setPNumberFocused(false)}
                       />
                       <label>Phone Number</label>
-                      {pNumber.trim() === "" && pNumberFocused && (
+                      {PhoneNumber.trim() === "" && pNumberFocused && (
                         <span className="text-danger">
                           Phone number is required
                         </span>
                       )}
                     </div>
-
-                    {/* <div
-                    className="form-floating"
-                    style={{ paddingBottom: "15px" }}
-                  >
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="HITs"
-                    />
-                    <label>Faculty</label>
-                  </div> */}
 
                     <div
                       className="form-floating"
@@ -157,10 +143,6 @@ const Signup = () => {
                           Email address is required
                         </span>
                       )}
-
-                      {/* <div style={{ fontSize: "10px" }}>
-                        Email will be used for login
-                      </div> */}
                     </div>
 
                     <div
@@ -205,21 +187,3 @@ const Signup = () => {
 };
 
 export default Signup;
-
-
-{/* <div className="col-md-8 col-6">
-  <input
-    type="text"
-    className="form-control"
-    onChange={(event) => {
-      setFName(event.target.value);
-      setError("");
-    }}
-    required
-    onBlur={() => {
-      !getFName?.trim() ? setError("first name cannot be empty") : setError("");
-    }}
-    placeholder={getProfile?.firstName}
-  />
-  {error && <div id="error-message">{error}</div>}
-</div>; */}

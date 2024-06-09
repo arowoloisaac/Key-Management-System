@@ -2,13 +2,13 @@ import { useEffect, useState } from "react";
 import Axios from "axios";
 import { KeyWith } from "../Key/With";
 import "../../assets/CSS/NavbarCSS/Navbar.css";
+import { ApiURL, Token } from "../../App";
 
 
 
 const NavBar = () => {
 
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-  const savedData = localStorage.getItem("token");
   const [getEMail, setEmail] = useState("");
 
   const [getWith, setWith] = useState<KeyWith>();
@@ -17,8 +17,8 @@ const NavBar = () => {
 
   // to get the profile of the user
   useEffect(() => {
-    Axios.get("https://localhost:7267/api/profile", {
-      headers: { Authorization: `Bearer ${savedData}` },
+    Axios.get(`${ApiURL}/profile`, {
+      headers: { Authorization: `Bearer ${Token}` },
     })
       .then((res) => {
         setEmail(res.data.email);
@@ -26,41 +26,40 @@ const NavBar = () => {
       .catch((ex) => {
         ex.response.status;
       });
-  }, [savedData]);
+  }, [Token]);
 
   // to check if user is authenticated or unauthenticated
   useEffect(() => {
-    if (savedData) {
+    if (Token) {
       setIsAuthenticated(true);
     } else {
       setIsAuthenticated(false);
     }
-  }, [savedData]);
+  }, [Token]);
 
   //this to check if the user has a thirdparty request which returns a booleam value
   useEffect(() => {
-    Axios.get("https://localhost:7267/api/get-notifier", {
-      headers: { Authorization: `Bearer ${savedData}` },
+    Axios.get(`${ApiURL}/get-notifier`, {
+      headers: { Authorization: `Bearer ${Token}` },
     }).then((res) => {
       hasNotification(res.data);
     });
-  }, [savedData]);
+  }, [Token]);
 
   const handleLogout = (event: any) => {
     event.preventDefault();
     if (isAuthenticated == true) {
       Axios.post(
-        "https://localhost:7267/api/logout",
+        `${ApiURL}/logout`,
         {},
         {
-          headers: { Authorization: `Bearer ${savedData}` },
+          headers: { Authorization: `Bearer ${Token}` },
         }
       )
         .then((res) => {
           res.status;
           localStorage.removeItem("token");
           setIsAuthenticated(false);
-          // setStatus(true)
           window.location.reload();
         })
         .catch(() => {
@@ -74,16 +73,15 @@ const NavBar = () => {
   };
 
   useEffect(() => {
-    Axios.get("https://localhost:7267/api/with-you", {
-      headers: { Authorization: `bearer ${savedData}` },
+    Axios.get(`${ApiURL}/with-you`, {
+      headers: { Authorization: `bearer ${Token}` },
     }).then((res) => {
       setWith(res.data);
       setIsWith(getWith?.roomNumber !== null);
     });
-  }, [savedData]);
+  }, [Token]);
 
-  console.log(notification);
-  // console.log(status)
+
   return (
     <>
       <div>

@@ -2,38 +2,37 @@ import { useEffect, useState } from "react";
 import Axios from "axios";
 import { User } from "./ViewProfile";
 import { useNavigate } from "react-router-dom";
+import { ApiURL, Token } from "../../App";
 
 const UpdateProfile = () => {
-  const [getFName, setFName] = useState<string>();
-  const [getLName, setLName] = useState<string>();
-  const [getNumber, setNumber] = useState<string>();
+  const [firstname, setFirstname] = useState<string>();
+  const [lastname, setLastname] = useState<string>();
+  const [phoneNumber, setPhoneNumber] = useState<string>();
+    const [getProfile, setProfile] = useState<User>();
 
-  const token = localStorage.getItem("token");
   const navigate = useNavigate();
 
-  const [getProfile, setProfile] = useState<User>();
-
   useEffect(() => {
-    Axios.get("https://localhost:7267/api/profile", {
+    Axios.get(`${ApiURL}/profile`, {
       headers: {
-        Authorization: `bearer ${token}`,
+        Authorization: `bearer ${Token}`,
       },
     })
       .then((res) => {
         setProfile(res.data);
       })
       .catch((ex) => ex.message);
-  }, [token]);
+  }, [Token]);
 
   const data = {
-    firstName: getFName || getProfile?.firstName,
-    lastName: getLName || getProfile?.lastName,
-    phoneNumber: getNumber || getProfile?.phoneNumber,
+    firstName: firstname || getProfile?.firstName,
+    lastName: lastname || getProfile?.lastName,
+    phoneNumber: phoneNumber || getProfile?.phoneNumber,
   };
 
   const updateProfileButton = () => {
-    Axios.put("https://localhost:7267/api/profile", data, {
-      headers: { Authorization: `bearer ${token}` },
+    Axios.put(`${ApiURL}/profile`, data, {
+      headers: { Authorization: `bearer ${Token}` },
     })
       .then((res) => {
         if (res.status === 200) {
@@ -47,6 +46,7 @@ const UpdateProfile = () => {
         }
       });
   };
+
   return (
     <>
       <div className="container" id="edit-container">
@@ -72,7 +72,7 @@ const UpdateProfile = () => {
                               type="text"
                               className="form-control"
                               onChange={(event) => {
-                                setFName(event.target.value);
+                                setFirstname(event.target.value);
                               }}
                               required
                               placeholder={getProfile?.firstName}
@@ -90,7 +90,7 @@ const UpdateProfile = () => {
                               type="text"
                               className="form-control"
                               onChange={(event) => {
-                                setLName(event.target.value);
+                                setLastname(event.target.value);
                               }}
                               placeholder={getProfile?.lastName}
                             />
@@ -117,7 +117,7 @@ const UpdateProfile = () => {
                               className="form-control"
                               placeholder={getProfile?.phoneNumber}
                               onChange={(event) => {
-                                setNumber(event.target.value);
+                                setPhoneNumber(event.target.value);
                               }}
                               maxLength={14}
                             />

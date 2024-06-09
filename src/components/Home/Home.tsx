@@ -5,6 +5,7 @@ import Axios from "axios";
 import { useState } from "react";
 import "../../assets/CSS/RequestKey.css";
 import Key from "../Key/Key";
+import { ApiURL } from "../../App";
 
 export interface IKeys {
   id: string;
@@ -15,7 +16,6 @@ export interface IKeys {
 const Home = () => {
   const [getKeys, setKeys] = useState<IKeys[]>([]);
   const [getSelector, setSelector] = useState<any>();
-  //const [getFilter, setFilter] = useState<any>();
   const [isClicked, setIsClicked] = useState(false);
 
   const handleSelector = (event: any) => {
@@ -25,7 +25,7 @@ const Home = () => {
   const handleFilter = (event: any) => {
     event.preventDefault();
     setIsClicked(true);
-    var parameter = `https://localhost:7267/api/get-keys?key=${getSelector}`;
+    var parameter = `${ApiURL}/get-keys?key=${getSelector}`;
 
     Axios.get(parameter).then((response) => {
       setKeys(response.data);
@@ -118,99 +118,3 @@ const Home = () => {
 };
 
 export default Home;
-
-{
-  /* <div>
-  <div className="row">
-    <div className="col-lg-6">
-      <div className="row">
-        <div className="col-lg-6">bob</div>
-        <div className="col-lg-6">bob</div>
-        <div className="col-lg-6">bob</div>
-        <div className="col-lg-6">bob</div>
-      </div>
-    </div>
-  </div>
-</div>; */
-}
-
-{/* <div key={key.id} className="row" id="rows-style">
-  <div className="col-4 col-lg-6 col-sm-4">{key.room}</div>
-  <div className="col-3 col-lg-2 col-sm-3" id="key-selector"></div>
-  <div
-    key={key.status}
-    className="col-3 col-lg-2 col-sm-3"
-    id="activity-selector"
-  >
-    {key.status === "Available" ? (
-      <button className="btn btn-primary btn-sm" type="button">
-        Available
-      </button>
-    ) : key.status === "Unavailable" ? (
-      <button className="btn btn-secondary btn-sm" type="button">
-        Engaged
-      </button>
-    ) : (
-      <button className="btn btn-secondary btn-sm" type="button">
-        Pending
-      </button>
-    )}
-  </div>
-
-  <div className="col-2 col-lg-2 col-sm-2">
-    {key.status === "Unavailable" ? (
-      <a href="/thirdparty">
-        <button className="btn btn-sm btn-primary" type="button">
-          Request
-        </button>
-      </a>
-    ) : key.status === "Available" ? (
-      <a href="/request">
-        <button className="btn btn-sm btn-primary" type="button">
-          Request
-        </button>
-      </a>
-    ) : (
-      <a href="">
-        <span>Await</span>
-      </a>
-    )}
-  </div>
-</div>; */}
-
-
- {
-   /* <div className="col-sm-4  mb-3 mb-sm-0">
-              <div className="card">
-                <div className="card-body">
-                  <div className="row">
-                    <div className="col-6">
-                      <h5 className="card-title">Room 200</h5>
-                    </div>
-                    <div className="col-6">
-                      <h5 className="" style={{ textAlign: "end" }}>
-                        Engaged
-                      </h5>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="col-sm-4  mb-3 mb-sm-0">
-              <div className="card">
-                <div className="card-body">
-                  <div className="row">
-                    <div className="col-6">
-                      <h5 className="card-title">Room 210</h5>
-                    </div>
-                    <div className="col-6">
-                      <h5 className="" style={{ textAlign: "end" }}>
-                        Available
-                      </h5>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div> */
- }

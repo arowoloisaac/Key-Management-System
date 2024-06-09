@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import Axios from "axios";
+import { ApiURL, Token } from "../../App";
 
 export interface KeyWith {
   roomNumber: string;
@@ -11,17 +12,20 @@ export interface KeyWith {
 const With = () => {
   const [getWith, setWith] = useState<KeyWith>();
 
-  const token = localStorage.getItem("token");
+  const handleReturn = async () => {
+    await Axios.put(
+      `${ApiURL}/return-key`,
+      {},
+      { headers: { Authorization: `Bearer ${Token}` } }
+    ).then((res) => console.log(res.status));
+  };
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await Axios.get(
-          "https://localhost:7267/api/with-you",
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        );
+        const response = await Axios.get(`${ApiURL}/with-you`, {
+          headers: { Authorization: `Bearer ${Token}` },
+        });
         const data = response.data;
         setWith(data);
       } catch (error) {
@@ -29,24 +33,7 @@ const With = () => {
       }
     };
     fetchData();
-  }, [token]);
-
-  // useEffect(() => {
-  //   Axios.get("https://localhost:7267/api/with-you", {
-  //     headers: { Authorization: `Bearer ${token}` },
-  //   }).then((res) => {
-  //     setWith(res.data);
-
-  //   });
-  // }, []);
-
-  const handleReturn = async () => {
-    await Axios.put(
-      "https://localhost:7267/api/return-key",
-      {},
-      { headers: { Authorization: `Bearer ${token}` } }
-    ).then((res) => console.log(res.status));
-  };
+  }, [Token]);
 
   return (
     <>

@@ -14,6 +14,9 @@ import ThirdParty from "./components/Key/ThirdParty";
 import With from "./components/Key/With";
 import ReviewRequest from "./components/Key/ReviewRequest";
 
+
+export const ApiURL = "https://localhost:7267/api";
+export const Token = localStorage.getItem("token")
 function App() {
   return (
     <>
