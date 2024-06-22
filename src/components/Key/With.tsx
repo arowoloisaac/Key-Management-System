@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Axios from "axios";
-import { ApiURL, Token } from "../../App";
+import { ApiURL, Token, errorMessage } from "../../App";
 
 export interface KeyWith {
   roomNumber: string;
@@ -17,7 +17,9 @@ const With = () => {
       `${ApiURL}/return-key`,
       {},
       { headers: { Authorization: `Bearer ${Token}` } }
-    ).then((res) => console.log(res.status));
+    ).then((res) =>
+      res.status === 200 ? alert(res.data) : alert("unable to return key")
+    );
   };
 
   useEffect(() => {
@@ -29,7 +31,7 @@ const With = () => {
         const data = response.data;
         setWith(data);
       } catch (error) {
-        console.error("Error fetching data", error);
+        alert(errorMessage(error));
       }
     };
     fetchData();

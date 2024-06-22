@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { IKeys } from "../Home/Home";
 import Axios from "axios";
-import { ApiURL, Token } from "../../App";
+import { ApiURL, Token, errorMessage } from "../../App";
 
 const ThirdParty = () => {
   const [getKeys, setKeys] = useState<IKeys[]>([]);
@@ -50,7 +50,7 @@ const ThirdParty = () => {
         }
       })
       .catch((ex) => {
-        ex.message;
+        alert(errorMessage(ex));
       });
   };
 

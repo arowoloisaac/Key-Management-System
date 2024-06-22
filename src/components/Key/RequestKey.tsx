@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Axios from "axios";
 import { IKeys } from "../Home/Home";
 import "../../assets/CSS/RequestKey.css";
-import { ApiURL, Token } from "../../App";
+import { ApiURL, Token, errorMessage } from "../../App";
 
 const RequestKey = () => {
   const [getKeys, setKeys] = useState<IKeys[]>([]);
@@ -11,7 +11,6 @@ const RequestKey = () => {
    const [activitySelected, setActivitySelected] = useState<{
      [key: string]: boolean;
    }>({});
-
 
   const handleActivityChange = (keyId: string, activity: string) => {
     setActivities((prevRoles) => ({
@@ -38,14 +37,12 @@ const RequestKey = () => {
     var room = key.id;
     let getActivity = activities[key.id]
     const Api = `${ApiURL}/collect-key?keyId=${room}&activity=${getActivity}`;
-    console.log(Api);
     Axios.post(Api, {}, { headers: { Authorization: `bearer ${Token}` } })
       .then((res) => {
-        console.log(res.data);
-        alert("Request Sent, await your response!");
+        alert(res.data)
       })
       .catch((ex) => {
-        alert(ex.message);
+        alert(errorMessage(ex));
       });
   };
 

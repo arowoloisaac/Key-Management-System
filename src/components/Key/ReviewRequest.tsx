@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import Axios from "axios";
-import { ApiURL, Token } from "../../App";
+import { ApiURL, Token, errorMessage } from "../../App";
 
 export interface IThirdPartyKey {
-  keyId: string, name: string
+  keyId: string;
+  name: string;
 }
 
 const ReviewRequest = () => {
@@ -16,14 +17,9 @@ const ReviewRequest = () => {
       headers: { Authorization: `Bearer ${Token}` },
     })
       .then((res) => {
-        if (res.status === 200) {
-          setKey(res.data);
-        //   console.log(res.data);
-        } else {
-          alert("You don't have any notification");
-        }
+        setKey(res.data);
       })
-      .catch((ex) => ex.message);
+      .catch((ex) => alert(errorMessage(ex)));
   };
 
   //returns boolean
@@ -45,9 +41,9 @@ const ReviewRequest = () => {
     )
       .then((res) => {
         alert(res.data.text);
-        location.reload()
+        location.reload();
       })
-      .catch((ex) => alert(ex.message));
+      .catch((ex) => alert(errorMessage(ex)));
   };
 
   //handle reject button
@@ -59,10 +55,10 @@ const ReviewRequest = () => {
       { headers: { Authorization: `Bearer ${Token}` } }
     )
       .then((res) => {
-        alert(res.data.text)
-        location.reload()
+        alert(res.data);
+        location.reload();
       })
-      .catch((ex) => ex.message);
+      .catch((ex) => alert(errorMessage(ex)));
   };
 
   useEffect(() => {
@@ -70,7 +66,6 @@ const ReviewRequest = () => {
     getNotification();
   }, []);
 
-  console.log(key);
   return (
     <>
       <div>
@@ -85,7 +80,7 @@ const ReviewRequest = () => {
               </h2>
             </div>
             <div>
-              <p style={{ color: "blue" }}> 
+              <p style={{ color: "blue" }}>
                 We will notify when there is a request👻👻!!!
               </p>
             </div>
@@ -94,30 +89,29 @@ const ReviewRequest = () => {
           <div>
             <span>This page aids key requests from the worker</span>
             <div id="externalContainer">
-              <div className="container"> 
-                  <div className="row">
-                    <div className="col-6 col-sm-6" id="text-header">
-                      <h5>{key?.name}</h5>
-                    </div>
-
-                    <div className="col-3 col-sm-3 text-end" id="accept-btn">
-                      <button
-                        className="btn btn-primary"
-                        onClick={() => handleAccept(key)}
-                      >
-                        Accept
-                      </button>
-                    </div>
-                    <div className="col-3 col-sm-3">
-                      <button
-                        className="btn btn-danger"
-                        onClick={() => handleReject(key)}
-                      >
-                        Reject
-                      </button>
-                    </div>
+              <div className="container">
+                <div className="row">
+                  <div className="col-6 col-sm-6" id="text-header">
+                    <h5>{key?.name}</h5>
                   </div>
-              
+
+                  <div className="col-3 col-sm-3 text-end" id="accept-btn">
+                    <button
+                      className="btn btn-primary"
+                      onClick={() => handleAccept(key)}
+                    >
+                      Accept
+                    </button>
+                  </div>
+                  <div className="col-3 col-sm-3">
+                    <button
+                      className="btn btn-danger"
+                      onClick={() => handleReject(key)}
+                    >
+                      Reject
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

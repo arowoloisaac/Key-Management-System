@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Axios from "axios";
 import { User } from "./ViewProfile";
 import { useNavigate } from "react-router-dom";
-import { ApiURL, Token } from "../../App";
+import { ApiURL, Token, errorMessage } from "../../App";
 
 const UpdateProfile = () => {
   const [firstname, setFirstname] = useState<string>();
@@ -41,9 +41,8 @@ const UpdateProfile = () => {
         }
       })
       .catch((ex) => {
-        if (ex.response.status) {
-          alert(ex.message);
-        }
+          alert(errorMessage(ex));
+        
       });
   };
 

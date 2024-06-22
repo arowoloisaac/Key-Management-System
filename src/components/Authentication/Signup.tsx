@@ -3,7 +3,7 @@ import "../../assets/CSS/Signup.css";
 import Axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Home from "../Home/Home";
-import { ApiURL } from "../../App";
+import { ApiURL, errorMessage } from "../../App";
 
 export interface ApiResponse {
   token: string;
@@ -35,16 +35,15 @@ const Signup = () => {
   };
 
   const register = () => {
-    Axios.post<ApiResponse>(
-      `${ApiURL}/register-collector`,
-      data
-    ).then((res) => {
-      setStatus(res.status);
-      localStorage.setItem("token", res.data.token);
-      console.log(res.data.token);
-      navigate("/");
-      window.location.reload();
-    });
+    Axios.post<ApiResponse>(`${ApiURL}/register-collector`, data)
+      .then((res) => {
+        setStatus(res.status);
+        localStorage.setItem("token", res.data.token);
+        console.log(res.data.token);
+        navigate("/");
+        window.location.reload();
+      })
+      .catch((ex) => alert(errorMessage(ex)));
   };
   return (
     <>
